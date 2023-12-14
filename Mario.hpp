@@ -47,6 +47,10 @@ public:
         
 
     }
+    void increaseScore(){
+        score+=5;
+        Mix_PlayChannel(-1, coinSound, 0);
+    }
 
     void makeJump(){
         if(!jumping){
@@ -77,10 +81,13 @@ public:
     }
     ~Mario(){
         Mix_FreeChunk(jumpSound);
+        Mix_FreeChunk(hitSound);
+        Mix_FreeChunk(coinSound);
     }
    
 
 private:
+    int score = 0;
     Playerstates* rightface= new Playerstates{{12,8,26,44},{12,8,26,44} , {42,8,26,44},  {72,8,26,44}};
     static const int MARIO_HEIGHT = 90;
     static const int MARIO_WIDTH = 50;
@@ -93,4 +100,5 @@ private:
     static const Uint32 JUMP_TIME = 900; // Jump duration in miliseconds
     Mix_Chunk* jumpSound = Mix_LoadWAV("Music/smb_jump.wav");
     Mix_Chunk* hitSound = Mix_LoadWAV("Music/smb_bump.wav");
+    Mix_Chunk* coinSound = Mix_LoadWAV("Music/smb_coin.wav");
 };

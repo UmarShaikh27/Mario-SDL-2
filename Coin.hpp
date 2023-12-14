@@ -26,7 +26,7 @@ public:
     }
     void scrollWithBackground(int offset)
     {
-        coinRect.x -= 12;
+        coinRect.x -= 11;
     }
 private:
     SDL_Renderer* renderer;

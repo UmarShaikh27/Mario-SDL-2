@@ -205,9 +205,8 @@ void Game::run()
 
 		};
 		if(coinGen->renderCoins(mario->moverRect)){
-			mario->makeJump();
-			
-
+			mario->makeJump();	
+			mario->increaseScore();
 		};
 		
 
