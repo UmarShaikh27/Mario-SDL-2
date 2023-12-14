@@ -128,7 +128,9 @@ void Game::run()
     Mario* mario =  new Mario(moverRect,healthRect);
     const Uint8* keyState;
     obstacleGen =  new ObstacleGenerator(gRenderer,SCREEN_WIDTH,SCREEN_HEIGHT);
+    coinGen =  new CoinGenerator(gRenderer,SCREEN_WIDTH,SCREEN_HEIGHT);
 	obstacleGen->generateObstacles(3);
+	coinGen->generateCoins(50);
 	// Obstacle obs(gRenderer,300,200);
 
 
@@ -160,10 +162,11 @@ void Game::run()
         if(keyState[SDL_SCANCODE_RIGHT]){
             mario->changeState();
             if(mario->moverRect.x+mario->moverRect.w<1000){
-                if(mario->moverRect.x<500){
+                if(mario->moverRect.x<350){
                     mario->moverRect.x += 10;
                 }else{
                     scrollingOffset -= 8; // Adjust the scrolling speed as needed
+					coinGen->scrollCoins(scrollingOffset);
                 }
             }
         }
@@ -193,8 +196,17 @@ void Game::run()
         SDL_RenderCopy(gRenderer, gTexture, NULL, &renderQuad2);
 
 		if(obstacleGen->renderObstacles(mario->moverRect)){
+			// hitStartTime = SDL_GetTicks()/1000;
 			mario->makeJump();
-			mario->decreaseHealth();
+			if((SDL_GetTicks()/1000) - hitStartTime > 0.5){
+				mario->decreaseHealth();
+				hitStartTime = SDL_GetTicks()/1000;
+			}
+
+		};
+		if(coinGen->renderCoins(mario->moverRect)){
+			mario->makeJump();
+			
 
 		};
 		

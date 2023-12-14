@@ -11,7 +11,8 @@
 #include "Timer.hpp"
 #include "Mario.hpp"
 #include "Obstaclegenerator.hpp"
-#include "Obstacle.hpp"
+#include "Coingenerator.hpp"
+// #include "Obstacle.hpp"
 
 class Game
 {
@@ -30,6 +31,7 @@ class Game
     // global reference to png image sheets
     SDL_Texture *assets = NULL;
     Mix_Music *bgMusic = NULL;
+    Uint32 hitStartTime= 0;
     
 
 public:
@@ -41,6 +43,7 @@ public:
     SDL_Texture* whitetexture=NULL;
     SDL_Texture* greentexture=NULL;
     ObstacleGenerator* obstacleGen;
+    CoinGenerator* coinGen;
     SDL_Rect greenSRCrect={0,0,396,497};
 	SDL_Rect whiteSRCrect={0,0,396,497};
 	SDL_Rect greenMoverRect={10,10,300,30};

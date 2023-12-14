@@ -56,7 +56,7 @@ public:
         }
     }
 
-    
+
     void changeState(){
         if(Data->srcRect.x == Data->walkOne.x && Data->srcRect.y == Data->walkOne.y){
             Data->srcRect = Data->walkTwo;
@@ -71,6 +71,12 @@ public:
 
     void decreaseHealth(){
         healthrect.w-=7;
+        moverRect.x-=3;
+        Mix_PlayChannel(-1, hitSound, 0);
+
+    }
+    ~Mario(){
+        Mix_FreeChunk(jumpSound);
     }
    
 
@@ -83,7 +89,8 @@ private:
     // int xVel = 0;
     bool jumping = false;
     Uint32 jumpStartTime = 0;
-    static const int JUMP_SPEED = 10; // Adjust the jump speed
-    static const Uint32 JUMP_TIME = 900; // Adjust the jump duration in milliseconds
+    static const int JUMP_SPEED = 10; // Adjustable jump speed
+    static const Uint32 JUMP_TIME = 900; // Jump duration in miliseconds
     Mix_Chunk* jumpSound = Mix_LoadWAV("Music/smb_jump.wav");
+    Mix_Chunk* hitSound = Mix_LoadWAV("Music/smb_bump.wav");
 };

@@ -13,7 +13,7 @@ public:
         for (int i = 0; i < numObstacles; ++i)
         {
             int obstacleX = rand() % screenWidth;
-            int obstacleY = rand() % screenHeight;
+            int obstacleY = 300 + (rand() % 110);
             SDL_Rect srcRect = {0, 0, 50, 50}; // Adjust the size of the source rectangle
 
             // Generate different obstacle classes randomly
