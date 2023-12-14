@@ -36,13 +36,22 @@ public:
             }
         }
     }
-    void renderObstacles()
+    bool renderObstacles(SDL_Rect marioRect)
     {
+        bool check = false;
         for (auto& obstacle : *obstacles)
         {
             obstacle.render();
+            if (SDL_HasIntersection(&marioRect, obstacle.getBoundingBox() ))
+            {
+                // Handle collision (e.g., decrease health or take appropriate action)
+                check =  true;
+            }
+            
         }
+        return check;
     }
+    
 
 private:
     SDL_Renderer* renderer;

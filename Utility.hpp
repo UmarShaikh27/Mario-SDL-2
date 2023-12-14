@@ -3,6 +3,7 @@
 #include <SDL_image.h>
 #include <stdio.h>
 #include <string>
+#include <SDL_mixer.h>
 
 class Utility
 {
@@ -29,4 +30,13 @@ public:
 
         return newTexture;
     }
+    // static void playJumpEffect(){
+    //     Mix_Chunk* jumpSound = Mix_LoadWAV("Music/smb_jump.wav");
+    //     Mix_PlayChannel(-1, jumpSound, 0);
+    // }
+    // ~Utility(){
+    //     Mix_FreeChunk(jumpSound);
+    // }
+private:
+    
 };

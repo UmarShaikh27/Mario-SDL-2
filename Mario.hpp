@@ -3,6 +3,7 @@
 #include <iostream>
 #include "Playerstates.hpp"
 #include <vector>
+#include "Utility.hpp"
 using namespace std;
 
 class Mario{
@@ -49,10 +50,13 @@ public:
 
     void makeJump(){
         if(!jumping){
+            Mix_PlayChannel(-1, jumpSound, 0);
             jumping = true;
             jumpStartTime = SDL_GetTicks();
         }
     }
+
+    
     void changeState(){
         if(Data->srcRect.x == Data->walkOne.x && Data->srcRect.y == Data->walkOne.y){
             Data->srcRect = Data->walkTwo;
@@ -65,39 +69,9 @@ public:
         }
     }
 
-
-
     void decreaseHealth(){
-        healthrect.w-=3;
+        healthrect.w-=7;
     }
-
-
-    // bool checkCollision(const SDL_Rect& otherRect) const
-    // {
-    //     return SDL_HasIntersection(&moverRect, &otherRect);
-    // }
-
-
-    // void punchAttack(Player* playerTwo){
-    //     Data->srcRect = Data->punchRect;
-    //     if(abs(moverRect.x-playerTwo->moverRect.x) < 170){
-    //         playerTwo->getPunched();
-    //     }
-    // }
-
-    // void kickattack(Player* playerTwo)
-    // {
-    //     SDL_Rect temp  =  Data->srcRect;
-    //     Data->srcRect = Data->kickRect;
-        
-    //     if(abs(moverRect.x-playerTwo->moverRect.x) < 170){
-    //         playerTwo->getKicked();
-    //     }
-    // }
-
-   
-
-
    
 
 private:
@@ -111,4 +85,5 @@ private:
     Uint32 jumpStartTime = 0;
     static const int JUMP_SPEED = 10; // Adjust the jump speed
     static const Uint32 JUMP_TIME = 900; // Adjust the jump duration in milliseconds
+    Mix_Chunk* jumpSound = Mix_LoadWAV("Music/smb_jump.wav");
 };

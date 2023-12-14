@@ -30,6 +30,7 @@ class Game
     // global reference to png image sheets
     SDL_Texture *assets = NULL;
     Mix_Music *bgMusic = NULL;
+    
 
 public:
     bool init();

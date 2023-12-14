@@ -28,11 +28,11 @@ public:
         }
     }
 
-    // SDL_Rect Obstacle::getBoundingBox() const
-    // {
-    //     return {x, y, srcRect->w, srcRect->h};
-    // }
-// private:
+    SDL_Rect* getBoundingBox()
+    {
+        return &obstacleRect;
+    }
+private:
     SDL_Renderer* renderer;
     int x, y;
     SDL_Texture* obstacleTexture;

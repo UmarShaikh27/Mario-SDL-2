@@ -79,6 +79,12 @@ bool Game::loadMedia()
 		printf("Unable to load music: %s \n", Mix_GetError());
 		success = false;
 	}
+	// jumpSound = Mix_LoadWAV("Music/smb_jump.wav"); // Replace with the actual path to your jump sound
+	// if (jumpSound == nullptr)
+	// {
+	// 	printf("Failed to load jump sound effect! SDL_mixer Error: %s\n", Mix_GetError());
+	// 	success = false;
+	// }
 	return success;
 }
 
@@ -93,9 +99,11 @@ void Game::close()
 	SDL_DestroyRenderer(gRenderer);
 	SDL_DestroyWindow(gWindow);
     Mix_FreeMusic(bgMusic);
+	// Mix_FreeChunk(jumpSound);
 	bgMusic = NULL;
 	gWindow = NULL;
 	gRenderer = NULL;
+	// jumpSound = NULL;
 	// Quit SDL subsystems
 	IMG_Quit();
 	SDL_Quit();
@@ -161,6 +169,7 @@ void Game::run()
         }
         if(keyState[SDL_SCANCODE_UP]){
             mario->makeJump();
+			// Mix_PlayChannel(-1, jumpSound, 0);
         }
         if(keyState[SDL_SCANCODE_V]){
             mario->decreaseHealth();
@@ -183,7 +192,11 @@ void Game::run()
         SDL_Rect renderQuad2 = { scrollingOffset + SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
         SDL_RenderCopy(gRenderer, gTexture, NULL, &renderQuad2);
 
-		obstacleGen->renderObstacles();
+		if(obstacleGen->renderObstacles(mario->moverRect)){
+			mario->makeJump();
+			mario->decreaseHealth();
+
+		};
 		
 
 
@@ -199,8 +212,8 @@ void Game::run()
 		// SDL_RenderClear(gRenderer); // removes everything from renderer
 		// SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);//Draws background to renderer
         SDL_RenderCopy(gRenderer, assets, &mario->Data->srcRect , &mario->moverRect);
-        // SDL_RenderCopy(gRenderer, whitetexture, &whiteSRCrect, &whiteMoverRect );
-        // SDL_RenderCopy(gRenderer, greentexture, &greenSRCrect, &mario->healthrect );
+        SDL_RenderCopy(gRenderer, whitetexture, &whiteSRCrect, &whiteMoverRect );
+        SDL_RenderCopy(gRenderer, greentexture, &greenSRCrect, &mario->healthrect );
 
 		//***********************draw the objects here********************
 
