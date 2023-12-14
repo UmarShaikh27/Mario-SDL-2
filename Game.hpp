@@ -10,6 +10,8 @@
 #include "Utility.hpp"
 #include "Timer.hpp"
 #include "Mario.hpp"
+#include "Obstaclegenerator.hpp"
+#include "Obstacle.hpp"
 
 class Game
 {
@@ -34,10 +36,10 @@ public:
     bool loadMedia();
     void drawBg();    
     void close();
-    // SDL_Texture *loadTexture(std::string path);
     void run();
     SDL_Texture* whitetexture=NULL;
     SDL_Texture* greentexture=NULL;
+    ObstacleGenerator* obstacleGen;
     SDL_Rect greenSRCrect={0,0,396,497};
 	SDL_Rect whiteSRCrect={0,0,396,497};
 	SDL_Rect greenMoverRect={10,10,300,30};

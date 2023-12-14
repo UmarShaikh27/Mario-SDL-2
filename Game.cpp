@@ -102,33 +102,6 @@ void Game::close()
     Mix_Quit();
 }
 
-// SDL_Texture *Game::loadTexture(std::string path)
-// {
-// 	// The final texture
-// 	SDL_Texture *newTexture = NULL;
-
-// 	// Load image at specified path
-// 	SDL_Surface *loadedSurface = IMG_Load(path.c_str());
-// 	if (loadedSurface == NULL)
-// 	{
-// 		printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
-// 	}
-// 	else
-// 	{
-// 		// Create texture from surface pixels
-// 		newTexture = SDL_CreateTextureFromSurface(gRenderer, loadedSurface);
-// 		if (newTexture == NULL)
-// 		{
-// 			printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
-// 		}
-
-// 		// Get rid of old loaded surface
-// 		SDL_FreeSurface(loadedSurface);
-// 	}
-
-// 	return newTexture;
-// }
-
 void Game::drawBg(){
 	SDL_RenderClear(gRenderer);
 	SDL_RenderCopy(gRenderer, gTexture, NULL, NULL); 
@@ -146,7 +119,9 @@ void Game::run()
     SDL_Rect moverRect = {50,410,50,90};
     Mario* mario =  new Mario(moverRect,healthRect);
     const Uint8* keyState;
-    
+    obstacleGen =  new ObstacleGenerator(gRenderer,SCREEN_WIDTH,SCREEN_HEIGHT);
+	obstacleGen->generateObstacles(3);
+	// Obstacle obs(gRenderer,300,200);
 
 
 
@@ -164,7 +139,7 @@ void Game::run()
             if( Mix_PlayingMusic() == 0 )
             {
                 //Play the music
-                Mix_PlayMusic( bgMusic, 2 );
+                // Mix_PlayMusic( bgMusic, 2 );
             }
 		}
         keyState = SDL_GetKeyboardState(NULL);
@@ -194,6 +169,7 @@ void Game::run()
        
         mario->checkjump();
 
+		
         // drawBg();
 
         ////////////////////////////////////////////////////////////////////////////
@@ -207,6 +183,10 @@ void Game::run()
         SDL_Rect renderQuad2 = { scrollingOffset + SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
         SDL_RenderCopy(gRenderer, gTexture, NULL, &renderQuad2);
 
+		obstacleGen->renderObstacles();
+		
+
+
         // Check if the first copy of the texture has scrolled completely off-screen
         if (scrollingOffset <= -SCREEN_WIDTH)
         {
@@ -216,13 +196,11 @@ void Game::run()
         // SDL_RenderPresent(gRenderer);
         ////////////////////////////////////////////////////////////////////////////
 
-
 		// SDL_RenderClear(gRenderer); // removes everything from renderer
 		// SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);//Draws background to renderer
         SDL_RenderCopy(gRenderer, assets, &mario->Data->srcRect , &mario->moverRect);
-        SDL_RenderCopy(gRenderer, whitetexture, &whiteSRCrect, &whiteMoverRect );
-        // SDL_RenderCopy(gRenderer, whitetexture, &whiteSRCrect, &whiteMOVErect2 );
-        SDL_RenderCopy(gRenderer, greentexture, &greenSRCrect, &mario->healthrect );
+        // SDL_RenderCopy(gRenderer, whitetexture, &whiteSRCrect, &whiteMoverRect );
+        // SDL_RenderCopy(gRenderer, greentexture, &greenSRCrect, &mario->healthrect );
 
 		//***********************draw the objects here********************
 

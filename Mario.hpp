@@ -70,6 +70,14 @@ public:
     void decreaseHealth(){
         healthrect.w-=3;
     }
+
+
+    // bool checkCollision(const SDL_Rect& otherRect) const
+    // {
+    //     return SDL_HasIntersection(&moverRect, &otherRect);
+    // }
+
+
     // void punchAttack(Player* playerTwo){
     //     Data->srcRect = Data->punchRect;
     //     if(abs(moverRect.x-playerTwo->moverRect.x) < 170){
