@@ -30,6 +30,10 @@ public:
     {
         return &obstacleRect;
     }
+    void scrollWithBackground(int offset)
+    {
+        obstacleRect.x -= 7;
+    }
 private:
     SDL_Renderer* renderer;
     int x, y;

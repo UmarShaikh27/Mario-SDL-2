@@ -1,5 +1,6 @@
 #include <SDL.h>
 #include <vector>
+#include <list>
 #include "Obstacle.hpp"
 
 class ObstacleGenerator
@@ -23,7 +24,8 @@ public:
             switch (obstacleType)
             {
             case 0:
-                obstacles->push_back(Obstacle(renderer, obstacleX + lastObstacleX, obstacleY));
+                Obstacle* obs =  new Obstacle(renderer, obstacleX + lastObstacleX, obstacleY);
+                obstacles.push_back(obs);
                 lastObstacleX+=obstacleX;
                 break;
             // case 1:
@@ -41,27 +43,38 @@ public:
     bool renderObstacles(SDL_Rect marioRect)
     {
         bool check = false;
-        for (auto& obstacle : *obstacles)
+        for (auto& obstacle : obstacles)
         {
-            obstacle.render();
+            obstacle->render();
             //if obstacle collides with left hand side of the screen, it gets spawned randomly at the right again
-            if(obstacle.getBoundingBox()->x < -15){
-                obstacle.getBoundingBox()->x = 1000 + rand() % 500;
+            if(obstacle->getBoundingBox()->x < -15){
+                obstacle->getBoundingBox()->x = 1000 + rand() % 500;
             }
             //collision check
-            if (SDL_HasIntersection(&marioRect, obstacle.getBoundingBox() ))
+            if (SDL_HasIntersection(&marioRect, obstacle->getBoundingBox() ))
             {
+                obstacles.remove(obstacle);
+                delete obstacle;
+                obstacle = nullptr;
+                cout<<"obstacle deleted"<<endl;
                 check =  true;
             }
             
+            
         }
         return check;
+    }
+    void scrollObstacles(int scrollingOffset){
+        for (auto& obstacle : obstacles)
+        {   
+            obstacle->scrollWithBackground(scrollingOffset);    
+        }
     }
     
 
 private:
     SDL_Renderer* renderer;
     int screenWidth, screenHeight;
-    std::vector<Obstacle> *obstacles = new std::vector<Obstacle>;
+    list<Obstacle*> obstacles;
     int lastObstacleX= 1000;
 };

@@ -167,6 +167,7 @@ void Game::run()
                 }else{
                     scrollingOffset -= 8; // Adjust the scrolling speed as needed
 					coinGen->scrollCoins(scrollingOffset);
+					obstacleGen->scrollObstacles(scrollingOffset);
                 }
             }
         }
@@ -196,16 +197,11 @@ void Game::run()
         SDL_RenderCopy(gRenderer, gTexture, NULL, &renderQuad2);
 
 		if(obstacleGen->renderObstacles(mario->moverRect)){
-			// hitStartTime = SDL_GetTicks()/1000;
 			mario->makeJump();
-			if((SDL_GetTicks()/1000) - hitStartTime > 0.5){
-				mario->decreaseHealth();
-				hitStartTime = SDL_GetTicks()/1000;
-			}
-
+			mario->decreaseHealth();
 		};
-		if(coinGen->renderCoins(mario->moverRect)){
-			mario->makeJump();	
+		
+		if(coinGen->renderCoins(mario->moverRect)){	
 			mario->increaseScore();
 		};
 		

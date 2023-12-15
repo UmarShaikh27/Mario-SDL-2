@@ -16,10 +16,8 @@ public:
 		moverRect = mover;
 		healthrect = health;
 		Data = rightface;
-	}
-    // string image="playerimg/redmanright.png";
-                            
-    // virtual void deletePlayer() = 0;     
+        score = 0;
+	} 
 
 
 
@@ -41,10 +39,7 @@ public:
                 jumping = false;
             }
         }
-        ////
-        
-
-        
+   
 
     }
     void increaseScore(){
@@ -74,7 +69,7 @@ public:
     }
 
     void decreaseHealth(){
-        healthrect.w-=7;
+        healthrect.w-=20;
         moverRect.x-=3;
         Mix_PlayChannel(-1, hitSound, 0);
 
@@ -87,7 +82,7 @@ public:
    
 
 private:
-    int score = 0;
+    int score;
     Playerstates* rightface= new Playerstates{{12,8,26,44},{12,8,26,44} , {42,8,26,44},  {72,8,26,44}};
     static const int MARIO_HEIGHT = 90;
     static const int MARIO_WIDTH = 50;
