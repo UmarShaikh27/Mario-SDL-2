@@ -1,5 +1,6 @@
 #include <SDL.h>
 #include <vector>
+#include <list>
 #include "Coin.hpp"
 
 
@@ -22,7 +23,8 @@ public:
             switch (coinType)
             {
             case 0:
-                coins->push_back(Coin(renderer, coinX+lastCoinX, coinY));
+                Coin* coin =  new Coin(renderer, coinX+lastCoinX, coinY); 
+                coins.push_back(coin);
                 lastCoinX+=coinX;
                 break;
             }
@@ -31,21 +33,32 @@ public:
     bool renderCoins(SDL_Rect marioRect)
     {
         bool check = false;
-        for (auto& coin : *coins)
+        for (auto& coin : coins)
         {
-            coin.render();
-            if (SDL_HasIntersection(&marioRect, coin.getBoundingBox() ))
+            coin->render();
+            if (SDL_HasIntersection(&marioRect, coin->getBoundingBox() ))
             {
+                coins.remove(coin);
+                delete coin;
+                coin = nullptr;
+                cout<<"coin deleted"<<endl;
                 check =  true;
+            }
+            else if(coin->getBoundingBox()->x <-10){
+                coins.remove(coin);
+                delete coin;
+                coin = nullptr;
+                cout<<"coin deleted"<<endl;
+                
             }
             
         }
         return check;
     }
     void scrollCoins(int scrollingOffset){
-        for (auto& coin : *coins)
+        for (auto& coin : coins)
         {   
-            coin.scrollWithBackground(scrollingOffset);    
+            coin->scrollWithBackground(scrollingOffset);    
         }
     }
     
@@ -53,7 +66,7 @@ public:
 private:
     SDL_Renderer* renderer;
     int screenWidth, screenHeight;
-    std::vector<Coin> *coins = new std::vector<Coin>;
+    list<Coin*> coins; 
     //x position of the the last coin
     int lastCoinX = 0;
 };

@@ -12,9 +12,10 @@ public:
     {
         for (int i = 0; i < numObstacles; ++i)
         {
-            int obstacleX = rand() % screenWidth;
+            //position of obstacle
+            //X position is added with the position of the last obstacle created so that its created further away
+            int obstacleX = rand() % (screenWidth-300);
             int obstacleY = 300 + (rand() % 110);
-            SDL_Rect srcRect = {0, 0, 50, 50}; // Adjust the size of the source rectangle
 
             // Generate different obstacle classes randomly
             int obstacleType = 0;
@@ -22,7 +23,8 @@ public:
             switch (obstacleType)
             {
             case 0:
-                obstacles->push_back(Obstacle(renderer, obstacleX, obstacleY));
+                obstacles->push_back(Obstacle(renderer, obstacleX + lastObstacleX, obstacleY));
+                lastObstacleX+=obstacleX;
                 break;
             // case 1:
             //     obstacles.push_back(Obstacle2(renderer, obstacleX, obstacleY, srcRect));
@@ -42,9 +44,13 @@ public:
         for (auto& obstacle : *obstacles)
         {
             obstacle.render();
+            //if obstacle collides with left hand side of the screen, it gets spawned randomly at the right again
+            if(obstacle.getBoundingBox()->x < -15){
+                obstacle.getBoundingBox()->x = 1000 + rand() % 500;
+            }
+            //collision check
             if (SDL_HasIntersection(&marioRect, obstacle.getBoundingBox() ))
             {
-                // Handle collision (e.g., decrease health or take appropriate action)
                 check =  true;
             }
             
@@ -56,5 +62,6 @@ public:
 private:
     SDL_Renderer* renderer;
     int screenWidth, screenHeight;
-    std::vector<Obstacle> *obstacles = new vector<Obstacle>;
+    std::vector<Obstacle> *obstacles = new std::vector<Obstacle>;
+    int lastObstacleX= 1000;
 };

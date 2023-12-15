@@ -17,9 +17,7 @@ public:
     void render()
     {
         SDL_RenderCopy(renderer, obstacleTexture, srcRect, &obstacleRect);
-        if(obstacleRect.x>0){
-            obstacleRect.x-=6;
-        }
+        obstacleRect.x-=6;
         if(srcRect == &srcOne){
             srcRect = &srcTwo;
         }
