@@ -2,6 +2,10 @@
 #include <vector>
 #include <list>
 #include "Obstacle.hpp"
+#include "Parrot.hpp"
+#include "Crab.hpp"
+#include "Snake.hpp"
+// #include "Bird.hpp"
 
 class ObstacleGenerator
 {
@@ -19,25 +23,25 @@ public:
             int obstacleY = 300 + (rand() % 110);
 
             // Generate different obstacle classes randomly
-            int obstacleType = 0;
-            // int obstacleType = rand() % 4;
-            switch (obstacleType)
-            {
-            case 0:
-                Obstacle* obs =  new Obstacle(renderer, obstacleX + lastObstacleX, obstacleY);
-                obstacles.push_back(obs);
-                lastObstacleX+=obstacleX;
-                break;
-            // case 1:
-            //     obstacles.push_back(Obstacle2(renderer, obstacleX, obstacleY, srcRect));
-            //     break;
-            // case 2:
-            //     obstacles.push_back(Obstacle3(renderer, obstacleX, obstacleY, srcRect));
-            //     break;
-            // case 3:
-            //     obstacles.push_back(Obstacle4(renderer, obstacleX, obstacleY, srcRect));
-            //     break;
+
+            // int obstacleType = 0;
+            int obstacleType = rand() % 3;
+            Obstacle* obs;
+            if(obstacleType == 0){
+                obs =  new Parrot(renderer, obstacleX + lastObstacleX, obstacleY);
+            }else if(obstacleType == 1){
+                obstacleY = 405 + (rand() % 6);
+                obs =  new Crab(renderer, obstacleX + lastObstacleX, obstacleY);
+            }else if(obstacleType == 2){
+                obstacleY = 405 + (rand() % 6);
+                obs =  new Snake(renderer, obstacleX + lastObstacleX, obstacleY);
+            }else{
+                // obs =  new Bird(renderer, obstacleX + lastObstacleX, obstacleY);
             }
+
+            obstacles.push_back(obs);
+            lastObstacleX+=obstacleX;
+            
         }
     }
     bool renderObstacles(SDL_Rect marioRect)

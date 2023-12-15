@@ -129,7 +129,7 @@ void Game::run()
     const Uint8* keyState;
     obstacleGen =  new ObstacleGenerator(gRenderer,SCREEN_WIDTH,SCREEN_HEIGHT);
     coinGen =  new CoinGenerator(gRenderer,SCREEN_WIDTH,SCREEN_HEIGHT);
-	obstacleGen->generateObstacles(3);
+	obstacleGen->generateObstacles(10);
 	coinGen->generateCoins(50);
 	// Obstacle obs(gRenderer,300,200);
 
@@ -200,7 +200,7 @@ void Game::run()
 			mario->makeJump();
 			mario->decreaseHealth();
 		};
-		
+
 		if(coinGen->renderCoins(mario->moverRect)){	
 			mario->increaseScore();
 		};
