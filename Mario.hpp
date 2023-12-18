@@ -45,7 +45,7 @@ public:
     bool increaseScore(){
         score+=5;
         Mix_PlayChannel(-1, coinSound, 0);
-        if(score>=20){
+        if(score>=10){
             return true;
         }
         return false;
@@ -73,7 +73,7 @@ public:
     }
 
     bool decreaseHealth(){
-        healthrect.w-=40;
+        healthrect.w-=60;
         moverRect.x-=3;
         Mix_PlayChannel(-1, hitSound, 0);
         if(healthrect.w<=0){

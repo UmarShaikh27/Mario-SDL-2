@@ -69,6 +69,8 @@ bool Game::loadMedia()
 	greentexture=Utility::loadTexture(gRenderer,"Images/green.png");
 	whitetexture=Utility::loadTexture(gRenderer,"Images/white.png");
     bgMusic = Mix_LoadMUS( "Music/ThemeSong.wav" );
+	gameWonSound = Mix_LoadWAV("Music/smb_world_clear.wav");
+	gameLostSound = Mix_LoadWAV("Music/smb_gameover.wav");
 
 	if (assets == NULL || gTexture == NULL || greentexture ==NULL || whitetexture == NULL)
 	{
@@ -117,7 +119,7 @@ void Game::drawBg(){
 
 }
 
-void Game::run()
+bool Game::run()
 {
 	bool quit = false;
 	SDL_Event e;
@@ -237,11 +239,16 @@ void Game::run()
 
 		SDL_Delay(50); // causes sdl engine to delay for specified miliseconds
 	}
+
 	if(won){
 		cout<<"Game won"<<endl;
+		return true;
+		
 	}else{
 		cout<<"Game lost"<<endl;
+		return false;
 	}
+	// this->gamefinished(won);
 }
 
 void Game::startup(){
@@ -278,4 +285,53 @@ void Game::startup(){
 		}
 		this->drawBg();
 	}
+}
+bool Game::gamefinished(bool won){
+	// Mix_HaltMusic();
+	// Mix_Quit();
+	if(won){
+		gTexture = Utility::loadTexture(gRenderer,"Images/player2wins.png");
+		Mix_PlayChannel(-1, gameWonSound, 0);
+	}else{
+		gTexture = Utility::loadTexture(gRenderer,"Images/restartscreen.jpeg");
+		Mix_PlayChannel(-1, gameLostSound, 0);
+	}
+	// Mix_FreeMusic(bgMusic);
+	
+	bool quit = false;
+	bool restart = false;
+	SDL_Event e;
+	while (!quit)
+	{
+		// Handle events on queue
+		while (SDL_PollEvent(&e) != 0)
+		{
+			// User requests quit
+			if (e.type == SDL_QUIT)
+			{
+				quit = true;
+			}
+			if(e.type == SDL_KEYDOWN) {
+				SDL_Keycode symbol = e.key.keysym.sym;
+				if(symbol == SDLK_q){
+					quit=true;
+				}
+				else if(symbol == SDLK_r){
+					quit=true;
+					restart = true;
+				}
+				else{
+					cout<<"Invalid key"<<endl;
+				}
+			}
+
+            if( Mix_PlayingMusic() == 0 )
+            {
+                // Play the music
+                Mix_PlayMusic( bgMusic, 2 );
+            }
+		}
+		this->drawBg();
+	}
+	return restart;
 }

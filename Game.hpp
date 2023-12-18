@@ -31,6 +31,8 @@ class Game
     // global reference to png image sheets
     SDL_Texture *assets = NULL;
     Mix_Music *bgMusic = NULL;
+    Mix_Chunk* gameWonSound = NULL;
+    Mix_Chunk* gameLostSound = NULL;
     Uint32 hitStartTime= 0;
     
 
@@ -38,9 +40,10 @@ public:
     bool init();
     bool loadMedia();
     void drawBg();   
-    void startup(); 
+    void startup();
+    bool gamefinished(bool won); 
     void close();
-    void run();
+    bool run();
     SDL_Texture* whitetexture=NULL;
     SDL_Texture* greentexture=NULL;
     ObstacleGenerator* obstacleGen;
