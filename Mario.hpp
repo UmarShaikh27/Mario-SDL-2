@@ -42,9 +42,13 @@ public:
    
 
     }
-    void increaseScore(){
+    bool increaseScore(){
         score+=5;
         Mix_PlayChannel(-1, coinSound, 0);
+        if(score>=20){
+            return true;
+        }
+        return false;
     }
 
     void makeJump(){
@@ -68,10 +72,14 @@ public:
         }
     }
 
-    void decreaseHealth(){
-        healthrect.w-=20;
+    bool decreaseHealth(){
+        healthrect.w-=40;
         moverRect.x-=3;
         Mix_PlayChannel(-1, hitSound, 0);
+        if(healthrect.w<=0){
+            return true;
+        }
+        return false;
 
     }
     ~Mario(){

@@ -37,7 +37,8 @@ class Game
 public:
     bool init();
     bool loadMedia();
-    void drawBg();    
+    void drawBg();   
+    void startup(); 
     void close();
     void run();
     SDL_Texture* whitetexture=NULL;

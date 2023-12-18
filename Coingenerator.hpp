@@ -61,7 +61,14 @@ public:
             coin->scrollWithBackground(scrollingOffset);    
         }
     }
-    
+    ~CoinGenerator(){
+        for (auto& coin : coins)
+        {   
+            delete coin;
+            coin = nullptr;   
+        }
+        cout<<"All coins deleted"<<endl;
+    }
 
 private:
     SDL_Renderer* renderer;

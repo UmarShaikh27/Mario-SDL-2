@@ -74,7 +74,14 @@ public:
             obstacle->scrollWithBackground(scrollingOffset);    
         }
     }
-    
+    ~ObstacleGenerator(){
+        for (auto& obstacle : obstacles)
+        {   
+            delete obstacle;
+            obstacle = nullptr;   
+        }
+        cout<<"All obstacles deleted"<<endl;
+    }
 
 private:
     SDL_Renderer* renderer;

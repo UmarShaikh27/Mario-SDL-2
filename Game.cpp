@@ -122,6 +122,7 @@ void Game::run()
 	bool quit = false;
 	SDL_Event e;
     int scrollingOffset = 0;
+	bool won=false;
     
     SDL_Rect healthRect = {10,10,300,30};
     SDL_Rect moverRect = {50,410,50,90};
@@ -198,11 +199,17 @@ void Game::run()
 
 		if(obstacleGen->renderObstacles(mario->moverRect)){
 			mario->makeJump();
-			mario->decreaseHealth();
+			if(mario->decreaseHealth()){
+				quit=true;
+			}
 		};
 
-		if(coinGen->renderCoins(mario->moverRect)){	
-			mario->increaseScore();
+		if(coinGen->renderCoins(mario->moverRect)){
+			if(mario->increaseScore()){
+				quit=true;
+				won = true;
+			}	
+			
 		};
 		
 
@@ -229,5 +236,46 @@ void Game::run()
 		SDL_RenderPresent(gRenderer); // displays the updated renderer
 
 		SDL_Delay(50); // causes sdl engine to delay for specified miliseconds
+	}
+	if(won){
+		cout<<"Game won"<<endl;
+	}else{
+		cout<<"Game lost"<<endl;
+	}
+}
+
+void Game::startup(){
+	bool quit = false;
+	SDL_Event e;
+	while (!quit)
+	{
+		// Handle events on queue
+		while (SDL_PollEvent(&e) != 0)
+		{
+			// User requests quit
+			if (e.type == SDL_QUIT)
+			{
+				quit = true;
+			}
+			if(e.type == SDL_KEYDOWN) {
+				SDL_Keycode symbol = e.key.keysym.sym;
+				if(symbol == SDLK_q){
+					quit=true;
+				}
+				else if(symbol == SDLK_r){
+					quit=true;
+				}
+				else{
+					cout<<"Invalid key"<<endl;
+				}
+			}
+
+            if( Mix_PlayingMusic() == 0 )
+            {
+                // Play the music
+                Mix_PlayMusic( bgMusic, 2 );
+            }
+		}
+		this->drawBg();
 	}
 }
