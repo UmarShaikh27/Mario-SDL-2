@@ -19,12 +19,11 @@ public:
         {
             //position of obstacle
             //X position is added with the position of the last obstacle created so that its created further away
-            int obstacleX = rand() % (screenWidth-300);
+            int obstacleX = rand() % (screenWidth-100);
             int obstacleY = 300 + (rand() % 110);
 
             // Generate different obstacle classes randomly
 
-            // int obstacleType = 0;
             int obstacleType = rand() % 3;
             Obstacle* obs;
             if(obstacleType == 0){

@@ -18,9 +18,8 @@ public:
     void render()
     {
         SDL_RenderCopy(renderer, obstacleTexture, srcRect, &obstacleRect);
-        obstacleRect.x-=10;
+        obstacleRect.x-=8;
         srcRect = (srcRect == &srcOne)? &srcTwo: (srcRect == &srcTwo)? &srcThree:(srcRect == &srcThree)? &srcFour: (srcRect == &srcFour)? &srcFive: &srcOne;
-
     }
 private:
     SDL_Rect srcOne = {40,123,32,25};

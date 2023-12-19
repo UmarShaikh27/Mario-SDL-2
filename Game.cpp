@@ -65,7 +65,7 @@ bool Game::loadMedia()
 	bool success = true;
 
 	assets = Utility::loadTexture(gRenderer,"Images/sprsheet.png");
-	gTexture = Utility::loadTexture(gRenderer,"Images/parallax.png");
+	gTexture = Utility::loadTexture(gRenderer,"Images/Game_on.png");
 	greentexture=Utility::loadTexture(gRenderer,"Images/green.png");
 	whitetexture=Utility::loadTexture(gRenderer,"Images/white.png");
     bgMusic = Mix_LoadMUS( "Music/ThemeSong.wav" );
@@ -132,7 +132,7 @@ bool Game::run()
     const Uint8* keyState;
     obstacleGen =  new ObstacleGenerator(gRenderer,SCREEN_WIDTH,SCREEN_HEIGHT);
     coinGen =  new CoinGenerator(gRenderer,SCREEN_WIDTH,SCREEN_HEIGHT);
-	obstacleGen->generateObstacles(10);
+	obstacleGen->generateObstacles(50);
 	coinGen->generateCoins(50);
 	// Obstacle obs(gRenderer,300,200);
 
@@ -147,6 +147,7 @@ bool Game::run()
 			if (e.type == SDL_QUIT)
 			{
 				quit = true;
+				this->close();
 			}
 
             if( Mix_PlayingMusic() == 0 )
@@ -178,9 +179,6 @@ bool Game::run()
             mario->makeJump();
 			// Mix_PlayChannel(-1, jumpSound, 0);
         }
-        if(keyState[SDL_SCANCODE_V]){
-            mario->decreaseHealth();
-        }
         
        
         mario->checkjump();
@@ -200,7 +198,6 @@ bool Game::run()
         SDL_RenderCopy(gRenderer, gTexture, NULL, &renderQuad2);
 
 		if(obstacleGen->renderObstacles(mario->moverRect)){
-			mario->makeJump();
 			if(mario->decreaseHealth()){
 				quit=true;
 			}
@@ -266,10 +263,7 @@ void Game::startup(){
 			}
 			if(e.type == SDL_KEYDOWN) {
 				SDL_Keycode symbol = e.key.keysym.sym;
-				if(symbol == SDLK_q){
-					quit=true;
-				}
-				else if(symbol == SDLK_r){
+				if(symbol == SDLK_p){
 					quit=true;
 				}
 				else{
@@ -285,15 +279,16 @@ void Game::startup(){
 		}
 		this->drawBg();
 	}
+	gTexture = Utility::loadTexture(gRenderer,"Images/parallax.png");
 }
+
 bool Game::gamefinished(bool won){
-	// Mix_HaltMusic();
-	// Mix_Quit();
+
 	if(won){
-		gTexture = Utility::loadTexture(gRenderer,"Images/player2wins.png");
+		gTexture = Utility::loadTexture(gRenderer,"Images/game_won.jpg");
 		Mix_PlayChannel(-1, gameWonSound, 0);
 	}else{
-		gTexture = Utility::loadTexture(gRenderer,"Images/restartscreen.jpeg");
+		gTexture = Utility::loadTexture(gRenderer,"Images/game-over.jpg");
 		Mix_PlayChannel(-1, gameLostSound, 0);
 	}
 	// Mix_FreeMusic(bgMusic);
