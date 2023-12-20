@@ -12,7 +12,6 @@ public:
         obstacleTexture = Utility::loadTexture(renderer,"Images/obstacles2.png");
         srcRect = &srcOne;
         obstacleRect = {x, y, srcRect->w, srcRect->h};
-        
     }
 
     void render()

@@ -1,12 +1,13 @@
 #include <SDL.h>
+#include <iostream>
 #include <vector>
 #include <list>
 #include "Obstacle.hpp"
 #include "Parrot.hpp"
 #include "Crab.hpp"
 #include "Snake.hpp"
-// #include "Bird.hpp"
-
+#include "Bird.hpp"
+using namespace std;
 class ObstacleGenerator
 {
 public:
@@ -18,13 +19,13 @@ public:
         for (int i = 0; i < numObstacles; ++i)
         {
             //position of obstacle
-            //X position is added with the position of the last obstacle created so that its created further away
-            int obstacleX = rand() % (screenWidth-100);
+            //X position is added with respect the position of the last obstacle created so that its created further away
+            int obstacleX = 100+rand() % (screenWidth-100);
             int obstacleY = 300 + (rand() % 110);
 
             // Generate different obstacle classes randomly
 
-            int obstacleType = rand() % 3;
+            int obstacleType = rand() % 4;
             Obstacle* obs;
             if(obstacleType == 0){
                 obs =  new Parrot(renderer, obstacleX + lastObstacleX, obstacleY);
@@ -35,7 +36,7 @@ public:
                 obstacleY = 405 + (rand() % 6);
                 obs =  new Snake(renderer, obstacleX + lastObstacleX, obstacleY);
             }else{
-                // obs =  new Bird(renderer, obstacleX + lastObstacleX, obstacleY);
+                obs =  new Bird(renderer, obstacleX + lastObstacleX, obstacleY);
             }
 
             obstacles.push_back(obs);

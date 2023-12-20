@@ -1,31 +1,32 @@
-//  #pragma once
-// #include <SDL.h>
-// #include "Obstacle.hpp"
-// #include "Utility.hpp"
+ #pragma once
+#include <SDL.h>
+#include "Obstacle.hpp"
+#include "Utility.hpp"
 
-// class Bird:public Obstacle{
+class Bird:public Obstacle{
 
-// public:
-//     Bird(SDL_Renderer* renderer, int x, int y) : Obstacle(renderer,x,y)
-//     {
-//         // Load the obstacle texture , set source and mover rectangles
-//         obstacleTexture = Utility::loadTexture(renderer,"Images/obstacles2.png");
-//         srcRect = &srcOne;
-//         obstacleRect = {x, y, srcRect->w, srcRect->h};
+public:
+    Bird(SDL_Renderer* renderer, int x, int y) : Obstacle(renderer,x,y)
+    {
+        // Load the obstacle texture , set source and mover rectangles
+        obstacleTexture = Utility::loadTexture(renderer,"Images/obastacle3.png");
+        srcRect = &srcOne;
+        obstacleRect = {x, y, srcRect->w, srcRect->h};
         
-//     }
+    }
 
-//     void render()
-//     {
-//         SDL_RenderCopy(renderer, obstacleTexture, srcRect, &obstacleRect);
-//         obstacleRect.x-=8;
-//         srcRect = (srcRect == &srcOne)? &srcTwo: (srcRect == &srcTwo)? &srcThree:(srcRect == &srcThree)? &srcFour: &srcOne;
+    void render()
+    {
+        SDL_RenderCopy(renderer, obstacleTexture, srcRect, &obstacleRect);
+        obstacleRect.x-=5;
+        srcRect = (srcRect == &srcOne)? &srcTwo: (srcRect == &srcTwo)? &srcThree:(srcRect == &srcThree)? &srcFour: (srcRect == &srcFour)? &srcFive: (srcRect == &srcFive)? &srcSix: &srcOne;
+    }
+private:
+    SDL_Rect srcOne = {162,161,32,48};
+    SDL_Rect srcTwo = {119,166,38,38};
+    SDL_Rect srcThree = {79,170,38,29};
+    SDL_Rect srcFour = {39,169,38,31};
+    SDL_Rect srcFive = {1,165,34,39};
+    SDL_Rect srcSix = {159,217,38,36};
 
-//     }
-// private:
-//     SDL_Rect srcOne = {152,447,38,47};
-//     SDL_Rect srcTwo = {102,447,38,47};
-//     SDL_Rect srcThree = {52,447,38,47};
-//     SDL_Rect srcFour = {6,447,31,47};
-
-// };
+};

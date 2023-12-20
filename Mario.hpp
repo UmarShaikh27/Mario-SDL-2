@@ -45,7 +45,7 @@ public:
     bool increaseScore(){
         score+=5;
         Mix_PlayChannel(-1, coinSound, 0);
-        if(score>=10){
+        if(score>=25){
             return true;
         }
         return false;
