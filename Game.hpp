@@ -48,6 +48,7 @@ public:
     SDL_Texture* greentexture=NULL;
     ObstacleGenerator* obstacleGen;
     CoinGenerator* coinGen;
+    Mario* mario;
     SDL_Rect greenSRCrect={0,0,396,497};
 	SDL_Rect whiteSRCrect={0,0,396,497};
 	SDL_Rect greenMoverRect={10,10,300,30};

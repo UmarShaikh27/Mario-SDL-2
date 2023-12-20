@@ -283,7 +283,11 @@ void Game::startup(){
 }
 
 bool Game::gamefinished(bool won){
-
+	obstacleGen->~ObstacleGenerator();
+	coinGen->~CoinGenerator();
+	delete mario;
+	mario =  nullptr;
+	
 	if(won){
 		gTexture = Utility::loadTexture(gRenderer,"Images/game_won.jpg");
 		Mix_PlayChannel(-1, gameWonSound, 0);
