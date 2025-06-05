@@ -1,0 +1,29 @@
+# SDL2 Libraries and Include files
+include/
+lib/
+
+# Build output
+*.exe
+*.o
+*.obj
+
+# SDL2 DLL files
+*.dll
+*.dll.a
+
+# VS Code settings
+.vscode/
+
+# Windows specific
+Thumbs.db
+Desktop.ini
+
+# Debug files
+*.pdb
+*.ilk
+
+# Other build artifacts
+*.a
+*.la
+*.lo
+*.log
