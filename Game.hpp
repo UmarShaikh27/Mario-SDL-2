@@ -37,22 +37,29 @@ class Game
     
 
 public:
-    bool init();
-    bool loadMedia();
-    void drawBg();   
-    void startup();
-    bool gamefinished(bool won); 
-    void close();
-    bool run();
-    SDL_Texture* whitetexture=NULL;
-    SDL_Texture* greentexture=NULL;
-    ObstacleGenerator* obstacleGen;
-    CoinGenerator* coinGen;
-    Mario* mario;
-    SDL_Rect greenSRCrect={0,0,396,497};
-	SDL_Rect whiteSRCrect={0,0,396,497};
-	SDL_Rect greenMoverRect={10,10,300,30};
-	SDL_Rect whiteMoverRect={7,7,306,36};
+    // Core game functions
+    bool init();        // Initialize SDL systems
+    bool loadMedia();   // Load all game assets
+    void drawBg();      // Render background
+    void startup();     // Handle title screen
+    bool gamefinished(bool won);  // Handle game over state
+    void close();       // Cleanup resources
+    bool run();         // Main game loop
+
+    // Game object textures and rectangles
+    SDL_Texture* whitetexture=NULL;    // Health bar background
+    SDL_Texture* greentexture=NULL;    // Health bar fill
+    
+    // Game entities
+    ObstacleGenerator* obstacleGen;    // Manages obstacles
+    CoinGenerator* coinGen;            // Manages collectible coins
+    Mario* mario;                      // Player character
+    
+    // UI element rectangles
+    SDL_Rect greenSRCrect={0,0,396,497};   // Health bar fill source
+    SDL_Rect whiteSRCrect={0,0,396,497};   // Health bar background source
+    SDL_Rect greenMoverRect={10,10,300,30}; // Health bar fill destination
+    SDL_Rect whiteMoverRect={7,7,306,36};   // Health bar background destination
 };
 
 
