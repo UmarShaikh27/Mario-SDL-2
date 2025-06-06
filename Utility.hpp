@@ -5,9 +5,25 @@
 #include <string>
 #include <SDL_mixer.h>
 
+/**
+ * Utility class
+ * Provides static helper functions for common SDL operations
+ * Currently handles:
+ * - Texture loading from image files
+ * - Error reporting for texture loading failures
+ */
 class Utility
 {
 public:
+    /**
+     * Load an image file into an SDL texture
+     * Handles both image loading and texture creation
+     * Reports errors if either step fails
+     * 
+     * @param renderer SDL rendering context to create texture in
+     * @param path File path to the image to load
+     * @return SDL_Texture* The loaded texture, or nullptr if loading failed
+     */
     static SDL_Texture* loadTexture(SDL_Renderer* renderer, std::string path)
     {
         SDL_Texture* newTexture = nullptr;
