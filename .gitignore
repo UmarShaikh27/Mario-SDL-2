@@ -3,7 +3,6 @@ include/
 lib/
 
 # Build output
-*.exe
 *.o
 *.obj
 
