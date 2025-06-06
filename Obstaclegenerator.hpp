@@ -8,12 +8,31 @@
 #include "Snake.hpp"
 #include "Bird.hpp"
 using namespace std;
+
+/**
+ * ObstacleGenerator class
+ * Manages the creation and behavior of game obstacles:
+ * - Generates different types of enemies (Parrot, Crab, Snake, Bird)
+ * - Handles obstacle positioning and movement
+ * - Manages collision detection with player
+ * - Handles obstacle recycling when they move off-screen
+ */
 class ObstacleGenerator
 {
 public:
+    /**
+     * Constructor: Initializes obstacle generator with rendering context and screen dimensions
+     */
     ObstacleGenerator(SDL_Renderer* renderer, int screenWidth, int screenHeight) : renderer(renderer), screenWidth(screenWidth), screenHeight(screenHeight)
     {
     }
+
+    /**
+     * Generates a specified number of random obstacles
+     * Different types of obstacles are placed at appropriate heights:
+     * - Flying enemies (Parrot, Bird) at variable heights
+     * - Ground enemies (Crab, Snake) at ground level
+     */
     void generateObstacles(int numObstacles)
     {
         for (int i = 0; i < numObstacles; ++i)
@@ -44,6 +63,13 @@ public:
             
         }
     }
+
+    /**
+     * Renders obstacles and handles:
+     * - Collision detection with Mario
+     * - Recycling off-screen obstacles
+     * Returns: true if Mario collided with an obstacle
+     */
     bool renderObstacles(SDL_Rect marioRect)
     {
         bool check = false;
@@ -68,12 +94,21 @@ public:
         }
         return check;
     }
+
+    /**
+     * Updates obstacle positions when background scrolls
+     * Called when player moves right beyond screen midpoint
+     */
     void scrollObstacles(int scrollingOffset){
         for (auto& obstacle : obstacles)
         {   
             obstacle->scrollWithBackground(scrollingOffset);    
         }
     }
+
+    /**
+     * Destructor: Cleans up all allocated obstacle objects
+     */
     ~ObstacleGenerator(){
         for (auto& obstacle : obstacles)
         {   
@@ -84,8 +119,8 @@ public:
     }
 
 private:
-    SDL_Renderer* renderer;
-    int screenWidth, screenHeight;
-    list<Obstacle*> obstacles;
-    int lastObstacleX= 1000;
+    SDL_Renderer* renderer;          // Rendering context
+    int screenWidth, screenHeight;   // Screen dimensions
+    list<Obstacle*> obstacles;       // List of active obstacles
+    int lastObstacleX = 1000;       // Starting X position for first obstacle
 };

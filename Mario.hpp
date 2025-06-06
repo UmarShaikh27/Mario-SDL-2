@@ -6,12 +6,27 @@
 #include "Utility.hpp"
 using namespace std;
 
+/**
+ * Mario class
+ * Represents the player character with:
+ * - Movement controls and animation
+ * - Health and score tracking
+ * - Jumping mechanics
+ * - Collision response
+ */
 class Mario{
 
 public:
-    SDL_Rect moverRect,healthrect;
-    Playerstates* Data;
+    SDL_Rect moverRect,healthrect;  // Position/collision and health bar rectangles
+    Playerstates* Data;             // Current animation state
+
+    // Constructors
     Mario() = default;
+    /**
+     * Constructor: Initialize Mario with position and health bar
+     * @param mover Position and size rectangle
+     * @param health Health bar rectangle
+     */
     Mario(SDL_Rect mover,SDL_Rect health){
 		moverRect = mover;
 		healthrect = health;
@@ -21,6 +36,11 @@ public:
 
 
 
+    /**
+     * Updates Mario's vertical position during jumps
+     * - First half of jump: Moving upward
+     * - Second half: Falling back down
+     */
     void checkjump() {
         // Handle jumping
         if(this->jumping) {
@@ -42,6 +62,10 @@ public:
    
 
     }
+    /**
+     * Increases score when collecting coins
+     * Returns: true if winning score reached
+     */
     bool increaseScore(){
         score+=5;
         Mix_PlayChannel(-1, coinSound, 0);
@@ -51,6 +75,10 @@ public:
         return false;
     }
 
+    /**
+     * Initiates a jump if not already jumping
+     * Plays jump sound effect
+     */
     void makeJump(){
         if(!jumping){
             Mix_PlayChannel(-1, jumpSound, 0);
@@ -60,6 +88,10 @@ public:
     }
 
 
+    /**
+     * Updates walking animation state
+     * Cycles through three walking frames
+     */
     void changeState(){
         if(Data->srcRect.x == Data->walkOne.x && Data->srcRect.y == Data->walkOne.y){
             Data->srcRect = Data->walkTwo;
@@ -72,6 +104,10 @@ public:
         }
     }
 
+    /**
+     * Reduces health when hit by obstacles
+     * Returns: true if health depleted
+     */
     bool decreaseHealth(){
         healthrect.w-=60;
         moverRect.x-=3;
@@ -82,6 +118,9 @@ public:
         return false;
 
     }
+    /**
+     * Destructor: Cleans up audio resources
+     */
     ~Mario(){
         Mix_FreeChunk(jumpSound);
         Mix_FreeChunk(hitSound);
@@ -90,15 +129,15 @@ public:
    
 
 private:
-    int score;
-    Playerstates* rightface= new Playerstates{{12,8,26,44},{12,8,26,44} , {42,8,26,44},  {72,8,26,44}};
+    int score;                      // Current coin collection score
+    Playerstates* rightface= new Playerstates{{12,8,26,44},{12,8,26,44} , {42,8,26,44},  {72,8,26,44}};        // Animation frames data
     static const int MARIO_HEIGHT = 90;
     static const int MARIO_WIDTH = 50;
     bool onPlatform = false;
     // int x, y;
     // int xVel = 0;
-    bool jumping = false;
-    Uint32 jumpStartTime = 0;
+    bool jumping = false;           // Current jumping state
+    Uint32 jumpStartTime = 0;       // Timestamp when jump started
     static const int JUMP_SPEED = 10; // Adjustable jump speed
     static const Uint32 JUMP_TIME = 900; // Jump duration in miliseconds
     Mix_Chunk* jumpSound = Mix_LoadWAV("Music/smb_jump.wav");
